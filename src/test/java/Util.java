@@ -1,6 +1,6 @@
 import io.restassured.response.Response;
-import json.Courier;
-import json.CourierLogin;
+import model.Courier;
+import model.CourierLogin;
 
 import static io.restassured.RestAssured.given;
 

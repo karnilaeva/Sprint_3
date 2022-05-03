@@ -1,7 +1,7 @@
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import json.Courier;
-import json.CourierLogin;
+import model.Courier;
+import model.CourierLogin;
+import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,14 +12,9 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-public class CourierLoginTest {
+public class CourierLoginTest extends BaseTest{
 
     Courier courier;
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
-    }
 
     @Before
     public void createCourier() {
@@ -42,7 +37,7 @@ public class CourierLoginTest {
 
         response.then().assertThat().body("id", notNullValue())
                 .and()
-                .statusCode(200);
+                .statusCode(HttpStatus.SC_OK);
     }
 
     @Test
@@ -53,7 +48,7 @@ public class CourierLoginTest {
 
         response.then().assertThat().body("message", equalTo("Недостаточно данных для входа"))
                 .and()
-                .statusCode(400);
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
@@ -64,7 +59,7 @@ public class CourierLoginTest {
 
         response.then().assertThat().body("message", equalTo("Недостаточно данных для входа"))
                 .and()
-                .statusCode(400);
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
@@ -75,7 +70,7 @@ public class CourierLoginTest {
 
         response.then().assertThat().body("message", equalTo("Учетная запись не найдена"))
                 .and()
-                .statusCode(404);
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
@@ -86,7 +81,7 @@ public class CourierLoginTest {
 
         response.then().assertThat().body("message", equalTo("Учетная запись не найдена"))
                 .and()
-                .statusCode(404);
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     private Response courierAuth(CourierLogin courierLogin) {

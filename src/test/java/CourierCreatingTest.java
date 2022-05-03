@@ -1,20 +1,13 @@
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import json.Courier;
-import org.junit.Before;
+import model.Courier;
+import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.util.UUID;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class CourierCreatingTest {
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
-    }
+public class CourierCreatingTest extends BaseTest{
 
     @Test
     public void successfulCreating() {
@@ -24,7 +17,7 @@ public class CourierCreatingTest {
 
         response.then().assertThat().body("ok", equalTo(true))
                 .and()
-                .statusCode(201);
+                .statusCode(HttpStatus.SC_CREATED);
 
         Util.deleteCourier(courier);
     }
@@ -39,11 +32,11 @@ public class CourierCreatingTest {
 
         firstResponse.then().assertThat().body("ok", equalTo(true))
                 .and()
-                .statusCode(201);
+                .statusCode(HttpStatus.SC_CREATED);
 
         secondResponse.then().assertThat().body("message", equalTo("Этот логин уже используется"))
                 .and()
-                .statusCode(409);
+                .statusCode(HttpStatus.SC_CONFLICT);
 
         Util.deleteCourier(courier);
     }
@@ -56,7 +49,7 @@ public class CourierCreatingTest {
 
         firstResponse.then().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"))
                 .and()
-                .statusCode(400);
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
@@ -67,7 +60,7 @@ public class CourierCreatingTest {
 
         firstResponse.then().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"))
                 .and()
-                .statusCode(400);
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
@@ -78,7 +71,7 @@ public class CourierCreatingTest {
 
         firstResponse.then().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"))
                 .and()
-                .statusCode(400);
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
 }

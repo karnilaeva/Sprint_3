@@ -1,4 +1,4 @@
-package json;
+package model;
 
 public class CourierLogin {
 
